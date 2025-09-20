@@ -1,0 +1,215 @@
+/* src/BookingPage.css */
+
+/* Specific navbar style for the booking page */
+.booking-navbar {
+  background-image: url('https://i.pinimg.com/736x/4a/33/79/4a3379c7723edda5cf59c6acb1bf332f.jpg'); /* Example image URL */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: rgba(0, 0, 0, 0.7); /* Fallback with transparency */
+}
+
+/* Ensure navbar text is readable against the new background */
+.booking-navbar .navbar-logo,
+.booking-navbar nav a {
+  color: white; 
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); 
+}
+
+/* Base container for the booking page content */
+.booking-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  padding-top: 6rem; /* This value ensures content starts below the fixed navbar */
+}
+
+/* Layout for the main booking content */
+.booking-content {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  gap: 2rem;
+  justify-content: center;
+}
+
+/* Left section for the slot list */
+.slot-list-section {
+  flex: 3;
+  min-width: 300px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the map component container */
+.map-container {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading placeholder for the map */
+.map-loading-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e6ed;
+  color: #777;
+  font-size: 1.2rem;
+  border-radius: 8px;
+}
+
+/* Grid for displaying parking slots */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+
+/* Individual parking slot card */
+.slot-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.slot-card:hover {
+  transform: translateY(-5px);
+}
+
+.slot-card.available {
+  background-color: #e8f5e9;
+  border-color: #4CAF50;
+}
+
+.slot-card.booked {
+  background-color: #ffebee;
+  border-color: #f44336;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.slot-card.selected {
+  background-color: #bbdefb;
+  border-color: #2196F3;
+  box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+}
+
+.slot-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.slot-status {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.select-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.select-btn:hover {
+  background-color: #45a049;
+}
+
+/* Right section for the booking summary */
+.booking-summary-section {
+  flex: 1;
+  min-width: 300px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.no-selection-card {
+  padding: 2rem;
+  text-align: center;
+  color: #777;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-info {
+  background-color: #fafafa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.summary-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.summary-info p {
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f44336;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.confirm-btn {
+  background-color: #2196F3;
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: background-color 0.3s;
+}
+
+.confirm-btn:hover {
+  background-color: #1e88e5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .booking-content {
+    flex-direction: column;
+  }
+}

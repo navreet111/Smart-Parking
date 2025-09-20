@@ -1,0 +1,81 @@
+/* src/PricingPage.css */
+
+.pricing-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 6rem;
+  background-color: #f0f2f5;
+}
+
+.pricing-card {
+  background-color: #ffffff;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  width: 90%;
+}
+
+.pricing-card h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.pricing-card p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.pricing-summary {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.pricing-summary h3 {
+  font-size: 1.8rem;
+  color: #007bff;
+  margin-bottom: 1rem;
+}
+
+.pricing-summary p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.total-cost {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #28a745;
+  margin-top: 1.5rem;
+}
+
+.no-data {
+  color: #dc3545;
+  font-style: italic;
+}
+
+.btn-pay {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: background-color 0.3s;
+}
+
+.btn-pay:hover {
+  background-color: #0056b3;
+}

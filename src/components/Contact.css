@@ -1,0 +1,136 @@
+/* Contact Page Styles */
+
+.contact-page {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('https://i.pinimg.com/736x/58/24/01/582401da0b052bc549c6043a2fdcf596.jpg'); 
+  background-size: cover;
+  background-position: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.contact-section h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.contact-section p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.contact-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Contact Form Styles */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form .btn-primary {
+  padding: 1rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* Submission Status Messages */
+.form-message {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.form-message.success {
+  color: #4CAF50;
+}
+
+.form-message.error {
+  color: #f44336;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 300px;
+  max-width: 500px;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-info h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #5cb85c;
+  padding-bottom: 0.5rem;
+}
+
+.contact-info p {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact-info .icon {
+  color: #5cb85c;
+  font-size: 1.2rem;
+}
