@@ -89,7 +89,7 @@ function HomePage({ isLoggedIn, setIsLoggedIn }) {
         )}
       </header>
       
-      <section className="main" style={{ backgroundImage: "url('https://i.pinimg.com/1200x/62/c9/f6/62c9f6cfcf32d98e3ae3e6d9877ecf2f.jpg')" }}>
+      <section className="main" style={{ backgroundImage: "url('https://i.pinimg.com/1200x/9b/6a/33/9b6a33edf2c092bac6b018888d5cd7a1.jpg')" }}>
         <div className="main-content">
           <h2>Find & Book Parking in Seconds</h2>
           <p>Check real-time availability and reserve your spot hassle-free.</p>
@@ -152,7 +152,7 @@ function HomePage({ isLoggedIn, setIsLoggedIn }) {
         </div>
       </section>
 
-      <section className="section light">
+      {/* <section className="section light">
         <h3>Benefits</h3>
         <div className="grid">
           {[
@@ -167,15 +167,15 @@ function HomePage({ isLoggedIn, setIsLoggedIn }) {
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className="section" id="reviews">
         <h3>User Reviews</h3>
         <div className="grid">
           {[
-            { name: "Jordan Smith", rating: 5, review: "Super easy to book!" },
+            { name: "Rahul Kumar", rating: 3, review: "Super easy to book!" },
             { name: "Sarah Johnson", rating: 4, review: "Very convenient and affordable." },
-            { name: "David Williams", rating: 5, review: "Loved the real-time updates!" },
+            { name: "Vishal Lalotra", rating: 5, review: "Loved the real-time updates!" },
           ].map((r, i) => (
             <div key={i} className="card">
               <h4>{r.name}</h4>

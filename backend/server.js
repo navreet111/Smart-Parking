@@ -1,4 +1,3 @@
-// server.js
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -26,7 +25,6 @@ const pool = new Pool({
 // ✅ Initialize DB tables
 async function initDB() {
   try {
-    // 1. Create users table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -36,7 +34,6 @@ async function initDB() {
       );
     `);
 
-    // 2. Create slots table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS slots (
         id SERIAL PRIMARY KEY,
@@ -44,36 +41,23 @@ async function initDB() {
         area VARCHAR(100) NOT NULL,
         is_booked BOOLEAN DEFAULT false,
         booked_by INT REFERENCES users(id),
+        parking_hours INT,
+        booked_by_username VARCHAR(100),
         UNIQUE (slot_number, area)
       );
     `);
 
-    // 3. ALTER TABLE to add the new columns with commas
-    await pool.query(`
-      ALTER TABLE slots
-      ADD COLUMN IF NOT EXISTS parking_hours INT,
-      ADD COLUMN IF NOT EXISTS booked_by_username VARCHAR(100);
-    `);
-
-    // 4. Insert updated dummy slots for testing
     const dummySlotsQuery = `
       INSERT INTO slots (slot_number, area, is_booked, booked_by, booked_by_username) VALUES
-      (1, 'Delhi', false, null, null), (2, 'Delhi', true, 1, 'user1'), (3, 'Delhi', false, null, null), (4, 'Delhi', true, 1, 'user1'), (5, 'Delhi', false, null, null),
-      (6, 'Delhi', false, null, null), (7, 'Delhi', true, 1, 'user1'), (8, 'Delhi', false, null, null), (9, 'Delhi', true, 1, 'user1'), (10, 'Delhi', false, null, null),
-
-      (1, 'Mumbai', true, 1, 'user1'), (2, 'Mumbai', false, null, null), (3, 'Mumbai', false, null, null), (4, 'Mumbai', false, null, null), (5, 'Mumbai', true, 1, 'user1'),
-      (6, 'Mumbai', false, null, null), (7, 'Mumbai', false, null, null), (8, 'Mumbai', true, 1, 'user1'), (9, 'Mumbai', false, null, null), (10, 'Mumbai', false, null, null),
-
-      (1, 'Bengaluru', false, null, null), (2, 'Bengaluru', true, 1, 'user1'), (3, 'Bengaluru', false, null, null), (4, 'Bengaluru', true, 1, 'user1'), (5, 'Bengaluru', false, null, null),
-      (6, 'Bengaluru', false, null, null), (7, 'Bengaluru', true, 1, 'user1'), (8, 'Bengaluru', false, null, null), (9, 'Bengaluru', true, 1, 'user1'), (10, 'Bengaluru', false, null, null),
-
-      (1, 'Chandigarh', true, 1, 'user1'), (2, 'Chandigarh', false, null, null), (3, 'Chandigarh', true, 1, 'user1'), (4, 'Chandigarh', false, null, null), (5, 'Chandigarh', false, null, null),
-      (6, 'Chandigarh', true, 1, 'user1'), (7, 'Chandigarh', false, null, null), (8, 'Chandigarh', true, 1, 'user1'), (9, 'Chandigarh', false, null, null), (10, 'Chandigarh', false, null, null)
+      (1, 'Delhi', false, null, null), (2, 'Delhi', false, null, null), (3, 'Delhi', false, null, null),
+      (1, 'Mumbai', false, null, null), (2, 'Mumbai', false, null, null), (3, 'Mumbai', false, null, null),
+      (1, 'Bengaluru', false, null, null), (2, 'Bengaluru', false, null, null), (3, 'Bengaluru', false, null, null),
+      (1, 'Chandigarh', false, null, null), (2, 'Chandigarh', false, null, null), (3, 'Chandigarh', false, null, null)
       ON CONFLICT (slot_number, area) DO NOTHING;
     `;
     await pool.query(dummySlotsQuery);
 
-    console.log("✅ Database initialized with updated slots and schema");
+    console.log("✅ Database initialized");
   } catch (err) {
     console.error("❌ Error initializing DB:", err);
   }
@@ -81,7 +65,7 @@ async function initDB() {
 
 // ================= ROUTES ================= //
 
-// ✅ Register route
+// ✅ Register
 app.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -104,14 +88,11 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// ✅ Login route
+// ✅ Login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE username = $1",
-      [username]
-    );
+    const result = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
     if (result.rows.length === 0) {
       return res.status(400).json({ error: "User not found" });
     }
@@ -120,27 +101,19 @@ app.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ error: "Invalid password" });
     }
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      "secretkey",
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user.id, username: user.username }, "secretkey", { expiresIn: "1h" });
     res.json({ message: "✅ Login successful", token, userId: user.id });
   } catch (err) {
-    console.error("❌ Error in /login:", err);
+    console.error("❌ Error in /login:", err.message);
     res.status(500).json({ error: "Server error" });
   }
 });
 
-// ✅ Get all slots for a specific area
+// ✅ Get slots by area
 app.get("/slots/:area", async (req, res) => {
   const { area } = req.params;
   try {
-    // 👈 NO JOIN needed, as the username is in the slots table
-    const result = await pool.query(
-      "SELECT * FROM slots WHERE area = $1 ORDER BY slot_number",
-      [area]
-    );
+    const result = await pool.query("SELECT * FROM slots WHERE area = $1 ORDER BY slot_number", [area]);
     res.json(result.rows);
   } catch (err) {
     console.error("❌ Error in /slots:", err.message);
@@ -148,32 +121,30 @@ app.get("/slots/:area", async (req, res) => {
   }
 });
 
-// ✅ Book a slot
+// ✅ Book a slot (JWT Protected)
 app.post("/book/:slotId", async (req, res) => {
   const { slotId } = req.params;
-  const { userId, parkingHours } = req.body; 
+  const { parkingHours } = req.body;
+  const token = req.headers["authorization"]?.split(" ")[1];
+
+  if (!token) return res.status(401).json({ error: "Unauthorized" });
 
   try {
-    const slot = await pool.query(
-      "SELECT * FROM slots WHERE id = $1",
-      [slotId]
-    );
-    if (slot.rows.length === 0) {
-      return res.status(404).json({ error: "Slot not found" });
-    }
-    if (slot.rows[0].is_booked) {
-      return res.status(400).json({ error: "Slot already booked" });
-    }
+    const decoded = jwt.verify(token, "secretkey");
+    const userId = decoded.id;
 
-    // 👈 Get the username of the user who is booking
     const userResult = await pool.query("SELECT username FROM users WHERE id = $1", [userId]);
     const username = userResult.rows[0].username;
 
-    // 👈 Update the query to save the userId and username
+    const slot = await pool.query("SELECT * FROM slots WHERE id = $1", [slotId]);
+    if (slot.rows.length === 0) return res.status(404).json({ error: "Slot not found" });
+    if (slot.rows[0].is_booked) return res.status(400).json({ error: "Slot already booked" });
+
     await pool.query(
       "UPDATE slots SET is_booked = true, booked_by = $1, parking_hours = $2, booked_by_username = $3 WHERE id = $4",
       [userId, parkingHours, username, slotId]
     );
+
     res.json({ message: "✅ Slot booked successfully" });
   } catch (err) {
     console.error("❌ Error in /book:", err.message);
@@ -181,18 +152,14 @@ app.post("/book/:slotId", async (req, res) => {
   }
 });
 
+// ✅ Contact form
 app.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
-  try {
-    console.log(`Received contact message from ${name} (${email}): ${message}`);
-    res.json({ message: "Message received successfully" });
-  } catch (err) {
-    console.error("Error in /contact:", err.message);
-    res.status(500).json({ error: "Server error" });
-  }
+  console.log(`📩 Message from ${name} (${email}): ${message}`);
+  res.json({ message: "Message received successfully" });
 });
 
-// ✅ Server start
+// ✅ Start server
 app.listen(PORT, async () => {
   await initDB();
   console.log(`🚀 Server running on http://localhost:${PORT}`);

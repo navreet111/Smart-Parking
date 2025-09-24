@@ -12,7 +12,7 @@ function PricingPage() {
   // Retrieve data from navigation state
   const { city, slotNumber, hours } = location.state || {};
 
-  const hourlyRate = 20; // Example: ₹20 per hour
+  const hourlyRate = 20; 
 
   useEffect(() => {
     if (hours) {

@@ -24,11 +24,11 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
       <Route path="/Login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-           <Route path="/booking" element={<BookingPage isLoggedIn={isLoggedIn} />} />
-               <Route path="/contact" element={<Contact />} />
-                   <Route path="/about" element={<About />} />
-                      <Route path="/register" element={<Register />} />
-                        <Route path="/pricing" element={<PricingPage />} />
+      <Route path="/booking" element={<BookingPage isLoggedIn={isLoggedIn} />} />
+      <Route path="/contact" element={<Contact />} />
+     <Route path="/about" element={<About />} />
+      <Route path="/register" element={<Register />} />
+     <Route path="/pricing" element={<PricingPage />} />
            
     </Routes>
   );
